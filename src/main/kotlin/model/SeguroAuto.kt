@@ -1,3 +1,5 @@
+package model
+
 class SeguroAuto(dniTitular: String, importe: Double,
                  val descripcion: String,
                  val combustible: String,

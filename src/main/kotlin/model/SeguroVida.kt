@@ -1,3 +1,5 @@
+package model
+
 class SeguroVida(dniTitular: String, importe: Double, val fechaNac: String, val nivelRiesgo: NivelRiesgo, val indemnizacion: Double): Seguro(dniTitular, importe) {
 
     val numPoliza = generarId()
