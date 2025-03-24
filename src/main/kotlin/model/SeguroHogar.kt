@@ -1,6 +1,7 @@
 package model
 
-import utils.FechaActual
+import utils.Fecha
+import java.time.LocalDate
 
 
 class SeguroHogar: Seguro{
@@ -57,7 +58,7 @@ class SeguroHogar: Seguro{
         val importeAnioSiguiente = importe * (1 + interes + interesResidual)
          */
 
-        val anioAntiguedad = FechaActual.obtenerAnioActual() - anioConstruccion
+        val anioAntiguedad = Fecha.obtenerAnio(LocalDate.now()) - anioConstruccion
         var anioAntiguedadTemporal = anioAntiguedad
         var contador = 0
 
@@ -93,7 +94,7 @@ class SeguroHogar: Seguro{
         val valorContenido = datos[3]
         val direccion = datos[4]
         val anioConstruccion = datos[5]
-        return SeguroHogar(datos[0], datos[1].toDouble(), datos[2].toInt(), datos[3].toDouble(), datos[4], datos[5].toInt())
+        return SeguroHogar(dniTitular, importe.toDouble(), metrosCuadrados.toInt(), valorContenido.toDouble(), direccion, anioConstruccion.toInt())
     }
 
     override fun toString(): String {

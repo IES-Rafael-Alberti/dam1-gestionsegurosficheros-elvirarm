@@ -32,8 +32,8 @@ class Usuario(nombre: String, clave: Int, perfil: Perfil): IExportable {
          */
     }
 
-    override fun serializar(): String {
-        return "$nombre; $clave; $perfil"
+    override fun serializar(separador: String): String {
+        return "$nombre$separador$clave$separador$perfil"
     }
 
 }

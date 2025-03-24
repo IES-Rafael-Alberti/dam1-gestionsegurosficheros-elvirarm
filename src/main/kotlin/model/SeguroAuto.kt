@@ -1,5 +1,7 @@
 package model
 
+import model.SeguroHogar.Companion
+
 class SeguroAuto: Seguro{
 
     val numPoliza = generarPoliza()
@@ -13,6 +15,7 @@ class SeguroAuto: Seguro{
 
 
     companion object{
+        private const val PORCENTAJE_INCREMENTO_PARTES = 2
 
         private var numPolizasAuto = 400000
 
@@ -25,11 +28,11 @@ class SeguroAuto: Seguro{
             val importe = datos[1]
             val descripcion = datos[2]
             val combustible = datos[3]
-            val tipoAuto = datos[4]
-            val cobertura = datos[5]
+            val tipoAuto = Auto.getAuto(datos[4])
+            val cobertura = Cobertura.getCobertura(datos[5])
             val asistenciaCarretera = datos[6]
             val numPartes = datos[7]
-            return SeguroAuto(datos[0], datos[1].toDouble(), datos[2], datos[3].toDouble(), datos[4], datos[5], datos[6].toBoolean(),datos[7].toInt())
+            return SeguroAuto(dniTitular, importe.toDouble(), descripcion, combustible.toDouble(), tipoAuto, cobertura, asistenciaCarretera.toBoolean(),numPartes.toInt())
             //TODO validar datos
         }
 
@@ -58,15 +61,19 @@ class SeguroAuto: Seguro{
     }
 
     override fun calcularImporteAniosSiguiente(interes: Double): Double {
-        TODO("Not yet implemented")
+        val importeAnioSiguiente = importe * (1 + interes + (numPartes * PORCENTAJE_INCREMENTO_PARTES)) / 100
+        return importeAnioSiguiente
     }
 
     override fun tipoSeguro(): String {
-        TODO("Not yet implemented")
+        return this::class.simpleName?: "Desconocido"
     }
 
     override fun serializar(separador: String): String {
-        return "$numPoliza$separador$dniTitular$separador$importe$separador$descripcion$separador$combustible$separador$tipoAuto$separador$tipoCobertura$separador$asistenciaCarretera$separador$numPartes$separador${tipoSeguro}"
+        return "$numPoliza$separador${obtenerDni()}$separador$importe$separador$descripcion$separador$combustible$separador$tipoAuto$separador$Cobertura$separador$asistenciaCarretera$separador$numPartes$separador${tipoSeguro()}"
     }
 
+    override fun toString(): String {
+        return "Seguro Auto(numPoliza=$numPolizasAuto, dniTitular=${obtenerDni()}, importe=$importe, descripcion = $descripcion, combustible = $combustible, tipoAuto = $tipoAuto, cobertura = $cobertura, asistenciaCarreta = $asistenciaCarretera)"
+    }
 }
