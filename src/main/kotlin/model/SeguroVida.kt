@@ -7,7 +7,7 @@ class SeguroVida(numPoliza: Int, dniTitular: String, importe: Double, val fechaN
         var numPolizaAuto = 800000
 
         private fun generarPoliza(): Int{
-            return ++id
+            return ++numPolizaAuto
         }
     }
 
@@ -20,6 +20,6 @@ class SeguroVida(numPoliza: Int, dniTitular: String, importe: Double, val fechaN
     }
 
     override fun serializar(): String {
-        return ("$numPoliza, $dniTitular, $importe, $fechaNac, $nivelRiesgo, $indemnizacion, /*tipoSeguro*/")
+        return ("$numPolizaAuto, ${obtenerDni()}, $importe, $fechaNac, $nivelRiesgo, $indemnizacion, /*tipoSeguro*/")
     }
 }

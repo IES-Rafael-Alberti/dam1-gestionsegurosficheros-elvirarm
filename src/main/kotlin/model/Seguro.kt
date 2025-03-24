@@ -37,8 +37,8 @@ abstract class Seguro (private val numPoliza: Int,
     /*
     Convierte el objeto a formato TXT
      */
-    override fun serializar(): String {
-        return "$numPoliza; $dniTitular; $importe"
+    override fun serializar(separador: String): String {
+        return "$numPoliza$separador$dniTitular$separador$importe"
     }
 
 

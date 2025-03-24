@@ -50,17 +50,24 @@ class SeguroHogar: Seguro{
     override fun calcularImporteAniosSiguiente(interes: Double): Double {
 
 
-        val anioAntiguedad = anioConstruccion - FechaActual.obtenerAnioActual()
+        /*
+        Mucho más simple, pero yo no lo he pensado así
+        val ciclos = anioAntiguedad / CICLO_ANIOS_INCREMENTO
+        val interesResidual = ciclos * PORCENTAJE_INCREMENTO_ANIOS
+        val importeAnioSiguiente = importe * (1 + interes + interesResidual)
+         */
+
+        val anioAntiguedad = FechaActual.obtenerAnioActual() - anioConstruccion
         var anioAntiguedadTemporal = anioAntiguedad
         var contador = 0
 
-        while (anioAntiguedadTemporal > CICLO_ANIOS_INCREMENTO){
-            anioAntiguedadTemporal = anioAntiguedad - CICLO_ANIOS_INCREMENTO
+        while (anioAntiguedadTemporal >= CICLO_ANIOS_INCREMENTO){
+            anioAntiguedadTemporal -= CICLO_ANIOS_INCREMENTO
             contador++
 
     }
         val interesResidual = contador * PORCENTAJE_INCREMENTO_ANIOS
-        val importeAnioSiguiente =  (importe * interes) + interesResidual
+        val importeAnioSiguiente = importe * (1 + interes + interesResidual)
         return importeAnioSiguiente
     }
 
@@ -71,9 +78,12 @@ class SeguroHogar: Seguro{
         return this::class.simpleName?: "Desconocido"
     }
 
-    override fun serializar(): String {
-        return "$numPolizasAuto; ${obtenerDni()}; $importe; $metrosCuadrados; $valorContenido; $direccion; ${tipoSeguro()}"
+    override fun serializar(separador: String): String {
+
+        return "$numPolizasAuto$separador${obtenerDni()}$separador$importe$separador$metrosCuadrados$separador$valorContenido$separador$direccion$separador${tipoSeguro()}"
     }
+
+
 
     fun crearSeguro(datos: List<String>): SeguroHogar{
         //TODO controlar la conversión de datos
