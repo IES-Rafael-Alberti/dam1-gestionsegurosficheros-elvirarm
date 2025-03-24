@@ -1,13 +1,12 @@
 package model
 
-class SeguroVida(dniTitular: String, importe: Double, val fechaNac: String, val nivelRiesgo: NivelRiesgo, val indemnizacion: Double): Seguro(dniTitular, importe) {
+class SeguroVida(numPoliza: Int, dniTitular: String, importe: Double, val fechaNac: String, val nivelRiesgo: Riesgo, val indemnizacion: Double): Seguro(numPoliza = generarPoliza(), dniTitular, importe) {
 
-    val numPoliza = generarId()
 
     companion object{
-        var id = 800000
+        var numPolizaAuto = 800000
 
-        private fun generarId(): Int{
+        private fun generarPoliza(): Int{
             return ++id
         }
     }

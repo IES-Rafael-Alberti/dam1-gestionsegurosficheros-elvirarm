@@ -10,11 +10,16 @@ abstract class Seguro (private val numPoliza: Int,
             return dniTitular.matches(Regex("^[0-9]{8}[A-Z]$"))
         }
 
+
+
     }
+
+    protected fun obtenerDni(): String = dniTitular
 
     abstract fun calcularImporteAniosSiguiente(interes: Double): Double
 
     abstract fun tipoSeguro(): String
+
 
 
     /*

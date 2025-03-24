@@ -4,14 +4,14 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-open class Fecha {
+object FechaActual {
 
-    open fun obtenerAnioActual(): String {
+    open fun obtenerAnioActual(): Int {
         val fechaActual = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy")
         val anioActual = formatter.format(fechaActual)
 
-        return anioActual
+        return anioActual.toInt()
 
     }
 

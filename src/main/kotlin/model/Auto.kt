@@ -7,8 +7,12 @@ enum class Auto {
     companion object{
 
         fun getAuto(valor: String): Auto{
-            return
-            //TODO
+            when(valor.uppercase().trim()){
+                "COCHE" -> return COCHE
+                "MOTO" -> return MOTO
+                "CAMION" -> return CAMION
+                else -> return COCHE
+            }
 
         }
 
