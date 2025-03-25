@@ -4,8 +4,6 @@ import model.SeguroHogar.Companion
 
 class SeguroAuto: Seguro{
 
-    val numPoliza = generarPoliza()
-
     var descripcion: String
     var combustible: Double
     var tipoAuto: Auto

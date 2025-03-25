@@ -3,7 +3,7 @@ package data
 import model.Perfil
 import model.Usuario
 
-class RepoUsuariosMem: IRepoUsuarios {
+open class RepoUsuariosMem: IRepoUsuarios {
 
     private var listaUsuariosMem: MutableList<Usuario> = mutableListOf()
 
@@ -17,15 +17,18 @@ class RepoUsuariosMem: IRepoUsuarios {
         }
     }
 
-    override fun buscarUsuario(usuario: Usuario): Usuario? {
-       return listaUsuariosMem.find{it.nombre == usuario.nombre}
+    override fun buscarUsuario(nombreUsuario: String): Usuario? {
+       return listaUsuariosMem.find{it.nombre == nombreUsuario}
     }
 
     override fun eliminar(usuario: Usuario): Boolean {
 
-        if(buscarUsuario(usuario) == usuario){
-            listaUsuariosMem.remove(usuario)
-            return true}
+        val usuarioAEliminar = buscarUsuario(usuario.nombre)
+
+        if(usuarioAEliminar != null){
+            listaUsuariosMem.remove(usuarioAEliminar)
+            return true
+        }
             else{
                 return false
         }
@@ -35,7 +38,7 @@ class RepoUsuariosMem: IRepoUsuarios {
 
         //TODO seguir pensando cómo usar la función buscarUsuario
 
-        val usuarioAEliminar = listaUsuariosMem.find{it.nombre == nombreUsuario}
+        val usuarioAEliminar = buscarUsuario(nombreUsuario)
         if(usuarioAEliminar != null){
             listaUsuariosMem.remove(usuarioAEliminar)
             return true

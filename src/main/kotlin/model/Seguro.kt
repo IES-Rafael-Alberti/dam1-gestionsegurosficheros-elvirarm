@@ -1,8 +1,9 @@
 package model
 
-abstract class Seguro (private val numPoliza: Int,
-                       private val dniTitular: String,
-                       protected val importe: Double): IExportable{
+abstract class Seguro (
+    val numPoliza: Int,
+    private val dniTitular: String,
+    protected val importe: Double): IExportable{
 
     companion object{
 
@@ -19,19 +20,6 @@ abstract class Seguro (private val numPoliza: Int,
     abstract fun calcularImporteAniosSiguiente(interes: Double): Double
 
     abstract fun tipoSeguro(): String
-
-
-
-    /*
-    Retorna true/false indicando si el parámetro que hemos pasado como argumento al método es igual o no al atributo numPoliza de la instancia
-     */
-    fun comprobarNumPoliza(numPoliza: Int): Boolean{
-        if (numPoliza == this.numPoliza){
-            return true
-        }else{
-            return false
-        }
-    }
 
 
     /*

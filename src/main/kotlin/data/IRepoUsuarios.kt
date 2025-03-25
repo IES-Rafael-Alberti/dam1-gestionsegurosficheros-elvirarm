@@ -7,7 +7,7 @@ interface IRepoUsuarios {
 
     fun agregarUsuario(usuario: Usuario): Boolean
 
-    fun buscarUsuario(usuario: Usuario): Usuario?
+    fun buscarUsuario(nombreUsuario: String): Usuario?
 
     fun eliminar(usuario: Usuario): Boolean
 

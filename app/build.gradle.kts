@@ -47,3 +47,10 @@ tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+dependencies {
+    testImplementation(kotlin("test"))
+    implementation("at.favre.lib:bcrypt:0.9.0")
+
+    implementation("org.jline:jline:3.29.0")
+}
