@@ -1,5 +1,10 @@
 package ui
 
+import jdk.internal.org.jline.reader.EndOfFileException
+import jdk.internal.org.jline.reader.LineReaderBuilder
+import jdk.internal.org.jline.reader.UserInterruptException
+import jdk.internal.org.jline.terminal.TerminalBuilder
+
 class Consola: IEntradaSalida {
 
     override fun mostrar(msj: String, salto: Boolean, pausa: Boolean) {
@@ -18,16 +23,16 @@ class Consola: IEntradaSalida {
         if(msj.isNotEmpty()){
             println(msj)}
             return readln().trim()
-        else{
-            /*
-            qué hace si está vacío
-             */
-
         }
-    }
+
 
     override fun pedirInfo(msj: String, error: String, debeCumplir: (String) -> Boolean): String {
-        TODO("Not yet implemented")
+        if(msj.isNotEmpty()){
+            println(msj)
+        }
+        val entrada = readln().trim()
+        require(debeCumplir(entrada)){error}
+        return entrada
     }
 
     override fun pedirDouble(
@@ -36,26 +41,79 @@ class Consola: IEntradaSalida {
         errorConv: String,
         debeCumplir: (Double) -> Boolean
     ): Double {
-        TODO("Not yet implemented")
+        println(prompt)
+        val double = readln().replace(",",".").toDoubleOrNull()
+        require(double is Double){errorConv}
+        require(debeCumplir(double)){error}
+        return double
     }
 
-    override fun pedirEntero(prompt: String, error: String, errorConv: String, debeCumplir: (Int) -> Boolean): Int {
-        TODO("Not yet implemented")
+    override fun pedirEntero(prompt: String, error: String, errorConv: String, debeCumplir: (Int) -> Boolean): Int{
+        println(prompt)
+        val int = readln().toIntOrNull()
+        require(int is Int){errorConv}
+        require(debeCumplir(int)){error}
+        return int
     }
+
 
     override fun pedirInfoOculta(prompt: String): String {
-        TODO("Not yet implemented")
+        return try {
+            val terminal = TerminalBuilder.builder()
+                .dumb(true) // Para entornos no interactivos como IDEs
+                .build()
+
+            val reader = LineReaderBuilder.builder()
+                .terminal(terminal)
+                .build()
+
+            reader.readLine(prompt, '*') // Oculta la contraseña con '*'
+        } catch (e: UserInterruptException) {
+            mostrarError("Entrada cancelada por el usuario (Ctrl + C).", pausa = false)
+            ""
+        } catch (e: EndOfFileException) {
+            mostrarError("Se alcanzó el final del archivo (EOF ó Ctrl+D).", pausa = false)
+            ""
+        } catch (e: Exception) {
+            mostrarError("Problema al leer la contraseña: ${e.message}", pausa = false)
+            ""
+        }
     }
 
     override fun pausar(msj: String) {
-        TODO("Not yet implemented")
+
+        var entradaUsuario = pedirInfo(msj)
+
+        while(entradaUsuario.isNotEmpty()){
+            entradaUsuario = pedirInfo(msj)
+            }
     }
 
+
+    /*
+    ver cómo funciona
+     */
     override fun limpiarPantalla(numSaltos: Int) {
-        TODO("Not yet implemented")
+        if (System.console() != null) {
+            mostrar("\u001b[H\u001b[2J", false)
+            System.out.flush()
+        } else {
+            repeat(numSaltos) {
+                mostrar("")
+            }
+        }
     }
 
     override fun preguntar(mensaje: String): Boolean {
-        TODO("Not yet implemented")
+        var entrada = pedirInfo(mensaje).lowercase()
+        val mensajesValidos = listOf("s", "n")
+        while (entrada !in mensajesValidos){
+            entrada = pedirInfo(mensaje).lowercase()
+        }
+        when (entrada){
+            "s" -> return true
+            "n" -> return false
+            else -> return false
     }
 }
+    }
