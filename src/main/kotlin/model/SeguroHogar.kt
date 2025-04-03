@@ -41,10 +41,10 @@ open class SeguroHogar: Seguro{
         private const val PORCENTAJE_INCREMENTO_ANIOS = 0.02
         private const val CICLO_ANIOS_INCREMENTO = 5
 
-        private var numPolizasAuto = 100000
+        var numPolizasHogar = 100000
 
         private fun generarPoliza(): Int{
-            return ++numPolizasAuto
+            return ++numPolizasHogar
         }
 
         fun crearSeguro(datos: List<String>): SeguroHogar{
@@ -78,7 +78,7 @@ open class SeguroHogar: Seguro{
             anioAntiguedadTemporal -= CICLO_ANIOS_INCREMENTO
             contador++
 
-    }
+        }
         val interesResidual = contador * PORCENTAJE_INCREMENTO_ANIOS
         val importeAnioSiguiente = importe * (1 + interes + interesResidual)
         return importeAnioSiguiente
@@ -87,7 +87,7 @@ open class SeguroHogar: Seguro{
 
     override fun serializar(separador: String): String {
 
-        return "$numPolizasAuto$separador${obtenerDni()}$separador$importe$separador$metrosCuadrados$separador$valorContenido$separador$direccion$separador${tipoSeguro()}"
+        return "$numPolizasHogar$separador${obtenerDni()}$separador$importe$separador$metrosCuadrados$separador$valorContenido$separador$direccion$separador${tipoSeguro()}"
     }
 
 
@@ -95,6 +95,6 @@ open class SeguroHogar: Seguro{
 
 
     override fun toString(): String {
-        return "Seguro Hogar(numPoliza=$numPolizasAuto, dniTitular=${obtenerDni()}, importe=$importe, metrosCuadrados = $metrosCuadrados, valorContenido: $valorContenido, direccion: $direccion, anioConstruccion: $anioConstruccion)"
+        return "Seguro Hogar(numPoliza=$numPolizasHogar, dniTitular=${obtenerDni()}, importe=$importe, metrosCuadrados = $metrosCuadrados, valorContenido: $valorContenido, direccion: $direccion, anioConstruccion: $anioConstruccion)"
     }
 }

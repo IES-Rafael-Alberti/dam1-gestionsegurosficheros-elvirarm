@@ -7,38 +7,44 @@ import prog2425.dam1.seguros.utils.IUtilFicheros
 
 import java.io.File
 
-class RepoUsuariosFich (rutaArchivo: String, utilFicheros: IUtilFicheros):RepoUsuariosMem(), ICargarUsuariosIniciales {
+class RepoUsuariosFich (val rutaArchivo: String, val fich: IUtilFicheros):RepoUsuariosMem(), ICargarUsuariosIniciales {
 
+    /* TODO
     override fun agregarUsuario(usuario: Usuario): Boolean {
-        if(buscarUsuario(usuario) != usuario){
-            if(agregarLinea()){
-                super.agregarUsuario(usuario)
-                }
-        }else{
-            return false
+        return if (buscarUsuario(usuario.nombre) != null) {
+            false
+
+        } else {
+            if (fich.agregarLinea(rutaArchivo, linea)) {
+                listaUsuariosMem.add(usuario)
+            }
+            true
         }
-
-
-        return super.agregarUsuario(usuario)
     }
 
+     */
+
     override fun eliminar(usuario: Usuario): Boolean {
-        if (listaUsuarios.filter{it.usuario == usuario}){
-            if(escribirArchivo()){
-                listaUsuarios.remove(usuario)
-            }else{
-                return false
+
+        return if (fich.escribirArchivo(rutaArchivo, listaUsuariosMem.filter { it != usuario })) {
+            super.eliminar(usuario)
+        } else {
+            false
+        }
+    }
+
+
+    override fun cargarUsuario(): Boolean {
+
+        for (linea in fich.leerArchivo(rutaArchivo)) {
+            val campos = linea.split(";")
+            val usuario = Usuario.crearUsuario(campos)
+
+            if (usuario != null) {
+                agregarUsuario(usuario)
+                return true
             }
         }
         return false
-    }
-
-    override fun eliminar(nombreUsuario: String): Boolean {
-        return super.eliminar(nombreUsuario)
-    }
-
-    override fun cargarUsuario(): Boolean {
-        val archivo = File.readLines()
-        Usuario.crearUsuario(datos)
     }
 }

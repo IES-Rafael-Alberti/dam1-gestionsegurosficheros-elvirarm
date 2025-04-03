@@ -14,7 +14,7 @@ class SeguroAuto: Seguro{
     companion object{
         private const val PORCENTAJE_INCREMENTO_PARTES = 2
 
-        private var numPolizasAuto = 400000
+        var numPolizasAuto = 400000
 
         private fun generarPoliza(): Int{
             return ++numPolizasAuto

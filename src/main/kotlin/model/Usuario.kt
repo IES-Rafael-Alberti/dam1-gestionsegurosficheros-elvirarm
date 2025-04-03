@@ -15,18 +15,18 @@ class Usuario(val nombre: String, clave: String, var perfil: Perfil): IExportabl
         */
         fun crearUsuario(datos: List<String>): Usuario{
             val nombre = datos[0]
-            var clave = datos[1]
-            var perfil = Perfil.getPerfil(datos[2])
-           return Usuario(nombre, clave, perfil)
+            val clave = datos[1]
+            val perfil = Perfil.getPerfil(datos[2])
+            return Usuario(nombre, clave, perfil)
 
         }
 
     }
 
 
-   /*
-   Actualiza la clave del usuario (este método va a actualizar la clave del usuario directamente, pero en el servicio que gestiona los usuarios debe solicitar la antigua clave, verificarla y pedir la nueva)
-    */
+    /*
+    Actualiza la clave del usuario (este método va a actualizar la clave del usuario directamente, pero en el servicio que gestiona los usuarios debe solicitar la antigua clave, verificarla y pedir la nueva)
+     */
     open fun cambiarClave(nuevaClaveEncriptada: String){
         clave = nuevaClaveEncriptada
     }

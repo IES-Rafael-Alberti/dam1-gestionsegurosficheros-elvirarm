@@ -6,7 +6,7 @@ import prog2425.dam1.seguros.model.Usuario
 
 open class RepoUsuariosMem: IRepoUsuarios {
 
-    private var listaUsuariosMem: MutableList<Usuario> = mutableListOf()
+    var listaUsuariosMem: MutableList<Usuario> = mutableListOf()
 
 
     override fun agregarUsuario(usuario: Usuario): Boolean {
@@ -19,7 +19,7 @@ open class RepoUsuariosMem: IRepoUsuarios {
     }
 
     override fun buscarUsuario(nombreUsuario: String): Usuario? {
-       return listaUsuariosMem.find{it.nombre == nombreUsuario}
+        return listaUsuariosMem.find{it.nombre == nombreUsuario}
     }
 
     override fun eliminar(usuario: Usuario): Boolean {
@@ -30,22 +30,20 @@ open class RepoUsuariosMem: IRepoUsuarios {
             listaUsuariosMem.remove(usuarioAEliminar)
             return true
         }
-            else{
-                return false
+        else{
+            return false
         }
     }
 
     override fun eliminar(nombreUsuario: String): Boolean {
-
-        //TODO seguir pensando cómo usar la función buscarUsuario
 
         val usuarioAEliminar = buscarUsuario(nombreUsuario)
         if(usuarioAEliminar != null){
             listaUsuariosMem.remove(usuarioAEliminar)
             return true
         }else{
-                return false
-            }
+            return false
+        }
     }
 
     override fun obtenerTodos(): List<Usuario> {
@@ -58,9 +56,12 @@ open class RepoUsuariosMem: IRepoUsuarios {
 
 
     override fun cambiarClave(usuario: Usuario, nuevaClave: String): Boolean {
-        //TODO está mal, ver cómo lo cambio
-        usuario.cambiarClave(nuevaClave)
-        return true
+        if(usuario != null){
+            usuario.cambiarClave(nuevaClave)
+            return true
+        }else{
+            return false
+        }
     }
 
 }

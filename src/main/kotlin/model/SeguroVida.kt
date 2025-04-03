@@ -1,3 +1,4 @@
+
 package prog2425.dam1.seguros.model
 
 import prog2425.dam1.seguros.utils.Fecha
@@ -12,7 +13,7 @@ class SeguroVida:Seguro {
     companion object{
         private const val INTERES_RESIDUAL = 0.05
 
-        private var numPolizasVida = 800000
+        var numPolizasVida = 800000
 
         private fun generarPoliza(): Int{
             return ++numPolizasVida
