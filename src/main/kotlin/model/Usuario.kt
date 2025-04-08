@@ -27,7 +27,7 @@ class Usuario(val nombre: String, clave: String, var perfil: Perfil): IExportabl
     /*
     Actualiza la clave del usuario (este método va a actualizar la clave del usuario directamente, pero en el servicio que gestiona los usuarios debe solicitar la antigua clave, verificarla y pedir la nueva)
      */
-    open fun cambiarClave(nuevaClaveEncriptada: String){
+    fun cambiarClave(nuevaClaveEncriptada: String){
         clave = nuevaClaveEncriptada
     }
 

@@ -4,23 +4,33 @@ import prog2425.dam1.seguros.model.*
 import prog2425.dam1.seguros.utils.IUtilFicheros
 
 
-class RepoSegurosFich(val fich: IUtilFicheros, val ruta: String, val linea: String):RepoSegurosMem(), ICargarSegurosIniciales {
+class RepoSegurosFich(val fich: IUtilFicheros, val ruta: String):RepoSegurosMem(), ICargarSegurosIniciales {
 
     override fun cargarSeguros(mapa: Map<String, (List<String>) -> Seguro>): Boolean {
+        val lineas = fich.leerArchivo(ruta)
+        seguros.clear()
 
-        seguros = fich.leerSeguros(ruta, mapa).toMutableList()
-        actualizarContadores(seguros)
+        for (linea in lineas) {
+            val datos = linea.split(";").toMutableList()
+            val tipoSeguro = datos.removeAt(-1)
+            val parametros = datos
+            val crearSeguro = mapa[tipoSeguro]
+
+            if (crearSeguro != null) {
+                seguros.add(crearSeguro(parametros))
+            } else {
+                seguros.clear()
+                return false
+            }
+        }
         return true
-
-        // revisar
-
     }
 
 
-    override fun agregar(seguro: Seguro): Boolean{
-        if (fich.agregarLinea(ruta, linea)){
+    override fun agregar(seguro: Seguro): Boolean {
+        if (fich.agregarLinea(ruta, seguro.serializar())) {
             return super.agregar(seguro)
-        }else {
+        } else {
             return false
         }
     }
@@ -43,5 +53,4 @@ class RepoSegurosFich(val fich: IUtilFicheros, val ruta: String, val linea: Stri
         if (maxAuto != null) SeguroAuto.numPolizasAuto = maxAuto
         if (maxVida != null) SeguroVida.numPolizasVida = maxVida
     }
-
 }

@@ -5,24 +5,20 @@ import prog2425.dam1.seguros.utils.IUtilFicheros
 
 //HACER
 
-import java.io.File
 
 class RepoUsuariosFich (val rutaArchivo: String, val fich: IUtilFicheros):RepoUsuariosMem(), ICargarUsuariosIniciales {
 
-    /* TODO
     override fun agregarUsuario(usuario: Usuario): Boolean {
-        return if (buscarUsuario(usuario.nombre) != null) {
-            false
 
-        } else {
-            if (fich.agregarLinea(rutaArchivo, linea)) {
-                listaUsuariosMem.add(usuario)
+
+            if (fich.agregarLinea(rutaArchivo, usuario.serializar())) {
+                return super.agregarUsuario(usuario)
+
             }
-            true
+            return false
         }
-    }
 
-     */
+
 
     override fun eliminar(usuario: Usuario): Boolean {
 
@@ -36,15 +32,17 @@ class RepoUsuariosFich (val rutaArchivo: String, val fich: IUtilFicheros):RepoUs
 
     override fun cargarUsuario(): Boolean {
 
+        var usuarioCargado = false
+
         for (linea in fich.leerArchivo(rutaArchivo)) {
             val campos = linea.split(";")
             val usuario = Usuario.crearUsuario(campos)
 
             if (usuario != null) {
                 agregarUsuario(usuario)
-                return true
+                usuarioCargado = true
             }
         }
-        return false
+        return usuarioCargado
     }
 }

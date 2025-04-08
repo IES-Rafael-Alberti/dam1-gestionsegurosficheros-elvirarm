@@ -11,11 +11,19 @@ class GestorUsuarios(private val repoUsuarios: IRepoUsuarios, private val seguri
 
     override fun iniciarSesion(nombre: String, clave: String): Perfil? {
         val usuario = repoUsuarios.buscarUsuario(nombre)
-        return if (usuario != null && verificarClave(clave, usuario.clave) != null) usuario.perfil else null
+        return if (usuario != null && seguridad.verificarClave(clave, usuario.clave)) usuario.perfil else null
     }
 
     override fun agregarUsuario(nombre: String, clave: String, perfil: Perfil): Boolean {
-        TODO("Not yet implemented")
+
+
+        if (repoUsuarios.buscarUsuario(nombre) != null) {
+            return false
+        }
+        val claveEncriptada = seguridad.encriptarClave(clave)
+        val nuevoUsuario = Usuario(nombre, claveEncriptada, perfil)
+        return repoUsuarios.agregarUsuario(nuevoUsuario)
+
     }
 
     override fun eliminarUsuario(nombre: String): Boolean {
@@ -23,35 +31,37 @@ class GestorUsuarios(private val repoUsuarios: IRepoUsuarios, private val seguri
         val usuarioAEliminar = buscarUsuario(nombre)
 
         if (usuarioAEliminar != null) {
-            eliminarUsuario(nombre)
+            repoUsuarios.eliminar(nombre)
             return true
         }else{
             return false
         }
     }
 
-    override fun cambiarClave(usuario: Usuario, nuevaClave: String): Boolean{
-        return if (usuario != null) true else false
+    override fun cambiarClave(usuario: Usuario, nuevaClave: String): Boolean {
+        val nuevaClaveEncriptada = seguridad.encriptarClave(nuevaClave)
+        usuario.cambiarClave(nuevaClaveEncriptada)
+        return repoUsuarios.cambiarClave(usuario, nuevaClaveEncriptada)
     }
 
     override fun buscarUsuario(nombre: String): Usuario? {
-        TODO("Not yet implemented")
+        return repoUsuarios.buscarUsuario(nombre)
     }
 
     override fun consultarTodos(): List<Usuario> {
-        TODO()
-        // return listaUsuariosRegistrados
+
+        return repoUsuarios.obtenerTodos()
     }
 
     override fun consultarPorPerfil(perfil: Perfil): List<Usuario> {
-        TODO("Not yet implemented")
+       return repoUsuarios.obtener(perfil)
     }
 
     override fun encriptarClave(clave: String, nivelSeguridad: Int): String {
-        TODO("Not yet implemented")
+        return seguridad.encriptarClave(clave, nivelSeguridad)
     }
 
     override fun verificarClave(claveIngresada: String, hashAlmacenado: String): Boolean {
-        TODO("Not yet implemented")
+        return seguridad.verificarClave(claveIngresada,hashAlmacenado)
     }
 }

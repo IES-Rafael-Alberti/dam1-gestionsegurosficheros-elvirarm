@@ -19,7 +19,7 @@ class SeguroVida:Seguro {
             return ++numPolizasVida
         }
 
-        private fun crearSeguro(datos:List<String>):SeguroVida{
+        fun crearSeguro(datos:List<String>):SeguroVida{
             val dniTitular = datos[0]
             val importe = datos[1]
             val fechaNac = LocalDate.parse(datos[2]) // Pasa de string a localdate

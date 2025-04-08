@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter
 
 object Fecha {
 
+    // se puede hacer con .year()
     fun obtenerAnio(fecha: LocalDate): Int {
         val formatter = DateTimeFormatter.ofPattern("yyyy")
         val anio = formatter.format(fecha)

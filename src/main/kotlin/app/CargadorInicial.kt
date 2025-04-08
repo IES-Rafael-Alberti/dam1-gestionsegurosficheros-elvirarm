@@ -2,62 +2,30 @@ package prog2425.dam1.seguros.app
 
 import prog2425.dam1.seguros.data.ICargarSegurosIniciales
 import prog2425.dam1.seguros.data.ICargarUsuariosIniciales
+import prog2425.dam1.seguros.data.RepoSegurosFich
+import prog2425.dam1.seguros.data.RepoUsuariosFich
 import prog2425.dam1.seguros.model.Seguro
 import prog2425.dam1.seguros.ui.IEntradaSalida
 
-class CargadorInicial: ICargarUsuariosIniciales, ICargarSegurosIniciales, IEntradaSalida {
+class CargadorInicial (val ui: IEntradaSalida, val repoUsuarios: RepoUsuariosFich, val repoSeguros: RepoSegurosFich ) {
 
+    fun cargarUsuarios(){
+       try{
+           repoUsuarios.cargarUsuario()
+       }catch(e: IllegalArgumentException){
+       ui.mostrarError("Error al convertir los datos")}
 
-    override fun cargarUsuario(): Boolean {
-        TODO("Not yet implemented")
+        catch(e: Exception){
+            ui.mostrarError("No se pueden cargar los usuarios")
+        }
     }
 
-    override fun cargarSeguros(mapa: Map<String, (List<String>) -> Seguro>): Boolean {
-        TODO("Not yet implemented")
+    fun cargarSeguros(){
+        try {
+            repoSeguros.cargarSeguros(ConfiguracionesApp.mapaCrearSeguro)
+        }catch(e: Exception){
+
+        }
     }
 
-    override fun mostrar(msj: String, salto: Boolean, pausa: Boolean) {
-        TODO("Not yet implemented")
-    }
-
-    override fun mostrarError(msj: String, pausa: Boolean) {
-        TODO("Not yet implemented")
-    }
-
-    override fun pedirInfo(msj: String): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun pedirInfo(msj: String, error: String, debeCumplir: (String) -> Boolean): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun pedirDouble(
-        prompt: String,
-        error: String,
-        errorConv: String,
-        debeCumplir: (Double) -> Boolean
-    ): Double {
-        TODO("Not yet implemented")
-    }
-
-    override fun pedirEntero(prompt: String, error: String, errorConv: String, debeCumplir: (Int) -> Boolean): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun pedirInfoOculta(prompt: String): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun pausar(msj: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun limpiarPantalla(numSaltos: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun preguntar(mensaje: String): Boolean {
-        TODO("Not yet implemented")
-    }
 }

@@ -12,7 +12,7 @@ class Consola: IEntradaSalida {
         if(msj.isNotEmpty()){
 
             if (pausa){
-                pausar("Pulsa enter para continuar...")
+                pausar()
             } else{
 
                 when(salto){
@@ -92,18 +92,10 @@ class Consola: IEntradaSalida {
     }
 
     override fun pausar(msj: String) {
-
-        var entradaUsuario = pedirInfo(msj)
-
-        while(entradaUsuario.isNotEmpty()){
-            entradaUsuario = pedirInfo(msj)
-            }
+        pedirInfo(msj)
     }
 
 
-    /*
-    ver cómo funciona
-     */
     override fun limpiarPantalla(numSaltos: Int) {
         if (System.console() != null) {
             mostrar("\u001b[H\u001b[2J", false)
